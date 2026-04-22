@@ -73,6 +73,9 @@
         @keyframes shine { to { background-position: 200% center; } }
 
         .hidden { display: none !important; }
+        
+        /* 针对结果页文本增加滚动条隐藏 */
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
@@ -85,9 +88,9 @@
 
     <!-- 开始界面 -->
     <div id="start-screen" class="relative z-10 text-center max-w-sm">
-        <div class="mb-6 inline-block animate-bounce text-7xl">🥨</div>
-        <h1 class="text-7xl font-bold mb-2 tracking-tighter title-gradient" style="font-family: 'ZCOOL KuaiLe'">FishTI</h1>
-        <p class="text-blue-200 opacity-80 mb-12 tracking-[0.2em] text-xs font-bold">测一测你的深海原型与精神状态</p>
+        <div class="mb-6 inline-block animate-bounce text-7xl">🌊</div>
+        <h1 class="text-7xl font-bold mb-2 tracking-tighter title-gradient" style="font-family: 'ZCOOL KuaiLe'">OceanTI</h1>
+        <p class="text-blue-200 opacity-80 mb-12 tracking-[0.2em] text-xs font-bold">测一测你的深海原型与发疯状态</p>
         <button onclick="startQuiz()" class="bg-cyan-500 hover:bg-cyan-400 text-white px-16 py-4 rounded-full text-xl font-bold shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all">潜入深海</button>
     </div>
 
@@ -112,7 +115,7 @@
     <!-- 结果界面 -->
     <div id="result-screen" class="relative z-10 w-full max-w-lg hidden py-4">
         <div id="result-card" class="mx-auto p-8 rounded-[32px] border border-white/20 relative overflow-hidden bg-[#001d3d]">
-            <div class="absolute -top-10 -right-10 p-4 opacity-5 text-[12rem] rotate-12 select-none">🌊</div>
+            <div class="absolute -top-10 -right-10 p-4 opacity-5 text-[12rem] rotate-12 select-none">🫧</div>
             
             <div class="mb-6 relative z-10">
                 <p class="text-[10px] tracking-[0.3em] text-cyan-400 uppercase opacity-70 mb-1 font-bold">Psychological Portrait</p>
@@ -128,11 +131,11 @@
 
             <div class="space-y-4 mb-6 relative z-10">
                 <div class="bg-cyan-400/10 p-4 rounded-2xl border-l-4 border-cyan-400">
-                    <p id="fish-desc" class="text-sm font-medium leading-relaxed text-blue-50"></p>
+                    <p id="fish-desc" class="text-[13px] font-medium leading-relaxed text-blue-50 text-justify tracking-wide"></p>
                 </div>
                 <div class="bg-black/40 p-4 rounded-2xl border border-white/5">
                     <p class="text-[10px] text-cyan-500 font-bold mb-1 tracking-widest uppercase">🧬 演化心理笔记</p>
-                    <p id="fish-science" class="text-xs text-blue-200/70 leading-relaxed"></p>
+                    <p id="fish-science" class="text-[11px] text-blue-200/80 leading-relaxed text-justify"></p>
                 </div>
             </div>
 
@@ -140,18 +143,19 @@
                 <div class="text-[9px] text-white/30 font-mono leading-tight">
                     <p>GENUS: <span id="fish-class" class="text-white/60"></span></p>
                     <p>HABITAT: <span id="fish-depth" class="text-white/60"></span></p>
-                    <p class="mt-2 uppercase tracking-tighter">Certified by FishTI Psycho-Lab</p>
+                    <p class="mt-2 uppercase tracking-tighter">Certified by OceanTI Psycho-Lab</p>
                 </div>
-                <div class="text-right">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=FishTI&bgcolor=001d3d&color=ffffff" class="w-10 h-10 ml-auto mb-1 border border-white/20 p-1">
-                    <p class="text-[8px] opacity-30">扫码测测你的灵魂物种</p>
+                <div class="text-right flex flex-col items-end">
+                    <!-- 二维码链接已替换为 GitHub Pages -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ygaohahaha.github.io/OceanTI/&bgcolor=001d3d&color=ffffff&margin=1" class="w-12 h-12 mb-2 border border-white/20 p-1 rounded-md" crossorigin="anonymous">
+                    <p class="text-[8px] opacity-40 font-bold tracking-wider">扫码潜入深海测发疯状态</p>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4 mt-6 px-4">
-            <button onclick="saveCard()" class="py-4 bg-cyan-600 hover:bg-cyan-500 rounded-2xl font-bold text-sm shadow-xl transition-all">保存报告</button>
-            <button onclick="location.reload()" class="py-4 bg-white/10 hover:bg-white/20 rounded-2xl font-bold text-sm transition-all">500，再来一次</button>
+            <button onclick="saveCard()" class="py-4 bg-cyan-600 hover:bg-cyan-500 rounded-2xl font-bold text-sm shadow-[0_4px_20px_rgba(6,182,212,0.3)] transition-all">保存发疯确诊单</button>
+            <button onclick="location.reload()" class="py-4 bg-white/10 hover:bg-white/20 rounded-2xl font-bold text-sm transition-all">治疗失败，再来一次</button>
         </div>
     </div>
 
@@ -159,7 +163,6 @@
     <audio id="bubble-sfx" src="https://assets.mixkit.co/sfx/preview/mixkit-liquid-bubble-3000.mp3"></audio>
 
     <script>
-        // 1. 初始化背景
         function initSnow() {
             const container = document.getElementById('marine-snow');
             for (let i = 0; i < 40; i++) {
@@ -176,7 +179,6 @@
         }
         initSnow();
 
-        // 2. 音效管理
         let musicActive = false;
         function toggleMusic() {
             const bgm = document.getElementById('bgm');
@@ -191,151 +193,151 @@
             sfx.play().catch(()=>{});
         }
 
-        // 3. 物种数据
+        // --- 深度扩写的结果数据 ---
         const species = {
-            "orca": { name: "海洋霸总 · 虎鲸", emoji: "🐋", desc: "你是精神状态领先全海洋的顶级大佬。智商高、体力好，最重要的是深谙社交精髓：能群殴绝不单挑！", science: "高度社会化的霸主，有方言甚至文化。它们会为了好玩去调戏海豹，甚至头顶死鱼引发时尚潮流。", class: "哺乳纲-海豚科", depth: "0-200m", stats: [95, 100, 80, 90] },
-            "blobfish": { name: "深海摆烂王 · 水滴鱼", emoji: "🫠", desc: "你是究极避世爱好者。只要躺得够平，生活就没办法把你绊倒。对于内卷，你只有一句：随便吧，累了。", science: "由于生活在极高压下，全身呈凝胶状。离开水后因为失压呈现出的‘瘫软态’，意外成了互联网丧文化的图腾。", class: "杜父鱼科", depth: "600-1200m", stats: [30, 5, 20, 100] },
-            "mantis": { name: "暴力艺术家 · 雀尾螳螂虾", emoji: "👊", desc: "性格极度外放的暴力美学达人。不仅能看到别人看不见的色彩，还能打出别人承受不住的重拳。", science: "出拳瞬间产生的空泡能产生数千度高温。玻璃缸都能砸碎，它是生物界已知最快的攻击者之一。", class: "软甲纲-口足目", depth: "1-40m", stats: [40, 100, 70, 20] },
-            "octopus": { name: "多线CPU · 章鱼", emoji: "🐙", desc: "你是拥有九个大脑的智力型选手。擅长在复杂环境中瞬间切换人格，逃避现实你是专业的。", science: "拥有三个心脏和九个大脑，其神经元大部分分布在触手中。能拧瓶盖、甚至在实验室上演‘越狱’。", class: "头足纲-八腕目", depth: "0-1000m", stats: [100, 60, 40, 50] },
-            "mola": { name: "脆皮大学生 · 翻车鱼", emoji: "☀️", desc: "体型庞大却内心脆弱，稍微受惊就可能‘原地去世’。你活在这个世界上全靠概率论和好运气。", science: "一次产卵3亿枚，靠数量基数维持种群。常侧卧在海面晒太阳，以此吸引海鸟帮它清理寄生虫。", class: "鲀形目-翻车鲀科", depth: "0-600m", stats: [20, 10, 10, 40] },
-            "shark": { name: "孤独执行官 · 大白鲨", emoji: "🦈", desc: "高效、精准、独来独往。你必须不停游动以获取氧气，一旦停下来就会窒息，典型的行动派。", science: "由于没有鳔，必须靠持续游泳来保持浮力和呼吸。这种‘停不下来’的特征决定了它们的高效。", class: "板鳃亚纲-鼠鲨目", depth: "0-1200m", stats: [60, 95, 75, 10] },
-            "clownfish": { name: "海葵宅男 · 小丑鱼", emoji: "🐠", desc: "极度依赖‘舒适区’。外界的纷纷扰扰与你无关，你只想守着自己的一亩三分地，过安稳日子。", science: "与海葵互利共生，身体表面的粘液能防止蜇伤。遇到危险会迅速钻进毒刺丛中，安全感至上。", class: "辐鳍鱼纲-雀鲷科", depth: "1-15m", stats: [50, 40, 85, 30] },
-            "whale": { name: "温柔巨兽 · 蓝鲸", emoji: "🐋", desc: "拥有毁灭一切的力量，却选择温柔。你的宽容和包容感让你在人群中拥有极高声望。", science: "地球史上最大的动物。其舌头可以站50个人，心脏有一辆小汽车那么大。低频叫声能传遍整个大洋。", class: "哺乳纲-须鲸亚目", depth: "0-500m", stats: [80, 30, 95, 40] },
-            "jellyfish": { name: "虚幻艺术家 · 箱水母", emoji: "👾", desc: "空灵、优雅、且致命。你不需要大脑也能做出最精密的防御，边界感极强，不喜欢被触碰。", science: "拥有24只眼睛，其毒液可以在几分钟内让人心脏停跳。身体95%以上都是水，优雅到极致。", class: "立方水母纲", depth: "0-50m", stats: [15, 90, 80, 5] },
-            "seahorse": { name: "纯爱战神 · 海马", emoji: "🎠", desc: "浪漫主义者，节奏极慢。在急躁的现代海洋里，你宁愿勾住一根海草发呆，也不愿随波逐流。", science: "世界上唯一由雄性生育后代的动物。由于游泳能力差，它们主要靠精密的伪装和预判来生存。", class: "辐鳍鱼纲-海龙科", depth: "1-30m", stats: [40, 15, 60, 30] },
-            "eel": { name: "电力耗尽 · 电鳗", emoji: "⚡", desc: "平时看起来死气沉沉，一旦被激怒就会爆发惊人能量。爆发之后会陷入长久的‘贤者时间’。", science: "特化的肌肉组织能产生高达860伏特的电压。虽然叫鳗，但在分类上更接近鲶鱼。", class: "辐鳍鱼纲-电鳗目", depth: "0-20m", stats: [45, 95, 30, 20] },
-            "nudi": { name: "多巴胺画师 · 海蛞蝓", emoji: "🌈", desc: "海洋里的色彩天才。虽然爬得慢，但一定要美。靠颜值行走江湖，剧毒是你的底气。", science: "会通过吃水螅来获取对方的毒素并储存在背部的触手里。是真正的‘吃什么变什么’的艺术家。", class: "腹足纲-裸鳃目", depth: "0-50m", stats: [55, 60, 50, 40] },
-            "crab": { name: "焦虑房奴 · 寄居蟹", emoji: "🐚", desc: "一生都在寻找更大的房子（壳）。虽然外表坚硬好斗，但脱掉壳的你其实是个极度柔软的小可爱。", science: "会排队交换空螺壳。如果找不到合适的壳，它们甚至会住在塑料盖或易拉罐里。", class: "软甲纲-异尾类", depth: "0-100m", stats: [50, 40, 95, 60] },
-            "shrimp": { name: "极致打工人 · 清洁虾", emoji: "🦐", desc: "服务型人格天花板。喜欢帮‘大佬’清理牙缝，游走在各种危险关系之间，靠勤劳换取生存权。", science: "设立‘清洁站’，连凶猛的石斑鱼都会乖乖排队等它清理寄生虫，是海洋生态的医生。", class: "软甲纲-十脚目", depth: "10-50m", stats: [65, 10, 20, 90] },
-            "isopod": { name: "深海大强 · 大王具足虫", emoji: "🍱", desc: "生命力顽强得离谱。能五年不吃饭，只为等待一个降临的‘大瓜’。你是一个冷静的旁观者。", science: "由于深海食物匮乏，它们进化出了极慢的新陈代谢，能忍受长时间的饥饿。", class: "软甲纲-等足目", depth: "170-2100m", stats: [30, 40, 100, 10] },
-            "squid": { name: "深渊克苏鲁 · 大王酸浆鱿", emoji: "🦑", desc: "生活在黑暗的极寒之地，拥有世界上最大的眼睛。你观察着一切，却从不轻易参与。神秘、强大、孤独。", science: "生活在南极深海，眼睛直径可达30厘米。是抹香鲸唯一的对手，拥有带钩的触手。", class: "头足纲-开眼亚目", depth: "2000m+", stats: [70, 90, 50, 100] }
+            "orca": { name: "海洋街溜子 · 虎鲸", emoji: "🐋", desc: "确诊为：精神状态遥遥领先的极品霸总。你深谙职场与社交的厚黑学，智商极高且精力旺盛。对你来说，如果生活没有乐子，那就创造乐子（甚至把别人的痛苦当乐子）。你深知“能群殴绝不单挑”的真理，看似阳光开朗大男孩，实则切开全是黑的。海洋里只有你欺负别人的份，绝不内耗，只外耗别人！", science: "作为高度社会化的顶级掠食者，虎鲸拥有复杂的方言和文化传承。它们不仅会为了好玩把海豹当球踢、把海龟当飞盘，甚至还会流行“头顶一条死三文鱼”的非主流时尚。大脑中的情感结构比人类还要复杂。", class: "哺乳纲-海豚科", depth: "0-200m", stats: [95, 100, 80, 95] },
+            "blobfish": { name: "极致摆烂王 · 水滴鱼", emoji: "🫠", desc: "确诊为：深海重度躺平体验官。你对内卷有着生理性反胃，人生的终极奥义就是“算了”、“随便吧”、“毁灭吧”。只要躺得够平，资本的镰刀就割不到你。你平时看似毫无攻击性、软糯好捏，但一旦被迫离开你的“舒适区”，你会瞬间化作一滩史莱姆，用极度丧气的状态让试图强迫你的人感到深深的内疚。", science: "由于生活在极高压的深海，为了节省能量，水滴鱼连鱼鳔都没有，全身呈密度略小于水的凝胶状物质。只有在脱离高压深水被捕捞上岸后，它才会因为失压而瘫软成那张著名的“世界最丑动物”丧脸。", class: "杜父鱼科", depth: "600-1200m", stats: [30, 5, 20, 100] },
+            "mantis": { name: "赛博格斗家 · 雀尾螳螂虾", emoji: "🥊", desc: "确诊为：暴躁易怒的色彩美学狂徒。你性格极度外放，眼里揉不得半点沙子。谁要是惹了你，你不用脑子思考，拳头会自动帮他清醒。你能在极短时间内爆发出惊人的行动力，且往往带有一种“虽然我很暴力，但我必须要好看”的执念。你是现实生活中的炸药包，不仅物理输出爆表，精神攻击也同样致命。", science: "能够看见多达16种原色（人类只有3种）。它的捕捉足出击速度高达每小时80公里，能在水下打出空穴效应，瞬间产生极其刺眼的闪光和上千度的高温，甚至能直接打碎水族馆的防弹玻璃。", class: "软甲纲-口足目", depth: "1-40m", stats: [40, 100, 70, 20] },
+            "octopus": { name: "多线程法师 · 章鱼", emoji: "🐙", desc: "确诊为：严重精分的千面间谍。你拥有一长串的内心戏和极其敏锐的观察力，能在复杂的职场和社交环境中瞬间切换人格。遇到麻烦时，你最擅长的就是“放个烟雾弹然后火速溜走”。你聪明得让人嫉妒，但这种过度的敏感也让你常常想远离人群，把自己塞进一个狭小的罐子里，享受绝对的独处。", science: "拥有3个心脏和9个大脑（1个主脑和8个分布式腕足神经中枢）。它们不仅能伪装成石头、海蛇，还能用触手独立思考并完成“拧开螺旋玻璃瓶盖”、“破解实验室迷宫”等离谱操作，被认为是地球上最像外星生物的物种。", class: "头足纲-八腕目", depth: "0-1000m", stats: [100, 60, 40, 50] },
+            "mola": { name: "脆皮大学生 · 翻车鱼", emoji: "🚑", desc: "确诊为：风一吹就散的惊吓易感人群。你活在这个世界上全靠概率论和好运气。内心极度脆弱，稍微遇到点风吹草动就想“原地去世”。你对生活的要求极低：别吓我，别撞我，让我安安静静晒个太阳就好。虽然总是处于精神崩溃的边缘，但你身上总有一种惹人怜爱的蠢萌感，让人不忍心欺负。", science: "骨骼退化且游泳能力极差，经常被洋流带着到处乱撞。它是世界上产卵最多的鱼类，一次能产下多达3亿枚卵，完全是靠变态般的数量基数硬抗大自然法则才没灭绝。常侧卧在海面上晒太阳以便海鸟清理寄生虫。", class: "鲀形目-翻车鲀科", depth: "0-600m", stats: [20, 10, 10, 40] },
+            "shark": { name: "冷血执行官 · 大白鲨", emoji: "🦈", desc: "确诊为：停下来就会死的行动派工作狂。你极度讨厌内耗，遇到问题永远是“别废话，直接干”。你享受孤独，喜欢独来独往，在团队中往往是那个力挽狂澜但懒得跟人交流的孤狼。别人觉得你高冷、可怕，其实你只是懒得把时间浪费在无意义的无效社交上，你只相信实力和效率。", science: "作为顶级掠食者，大白鲨没有鱼鳔，加上体内需要巨大的氧气消耗量，这意味着它必须保持一辈子都在不停地游动，一旦停下来就会因为窒息或沉底而死亡。可以说，它的强大是用“永不停歇”换来的。", class: "板鳃亚纲-鼠鲨目", depth: "0-1200m", stats: [60, 95, 75, 10] },
+            "clownfish": { name: "重度社恐宅 · 小丑鱼", emoji: "🏠", desc: "确诊为：脱离舒适区就会过敏的极度恋家狂。外面的世界对你来说太危险也太吵闹了，你只想一辈子苟在自己那片小小的海葵里。你的边界感极强，谁要是随便入侵你的私人空间，你会立刻炸毛。你把“好死不如赖活着”贯彻到了极致，是个能在混乱世界中找到专属于自己的苟活之道的生存大师。", science: "小丑鱼与海葵形成了完美的共生关系。它们身体表面的特殊黏液能让它免受海葵剧毒触手的蜇伤。遇到捕食者时，它们会立刻钻进毒刺丛中寻求庇护，连睡觉都不能离开海葵。", class: "辐鳍鱼纲-雀鲷科", depth: "1-15m", stats: [50, 40, 85, 30] },
+            "whale": { name: "温柔巨兽 · 蓝鲸", emoji: "🐳", desc: "确诊为：大格局的佛系老好人。你拥有碾压绝大多数人的实力，却偏偏选择做一个温柔的旁观者。你的宽容和包容感让你在人群中拥有极高声望，通常是朋友们的“情绪垃圾桶”。虽然你体型庞大、力量惊人，但你每天最大的烦恼往往是“今天去哪吃一顿饱饭”，是一种返璞归真的顶级精神状态。", science: "地球史上存在过的体积最大的动物，舌头重达3吨，可以站立50个人。尽管拥有如此恐怖的体型，它们却只吃体型微小的磷虾。它们发出的低频叫声能够穿透数千公里的海水，与其他同伴在深渊中交流。", class: "哺乳纲-须鲸亚目", depth: "0-500m", stats: [80, 30, 95, 40] },
+            "jellyfish": { name: "剧毒花瓶 · 箱水母", emoji: "👾", desc: "确诊为：没有脑子但极度致命的虚无主义者。空灵、优雅、边界感极强。你经常处于一种“放空”的状态，随波逐流是常态。但如果有人不知死活地想要碰瓷你，不好意思，哪怕你没带脑子出门，你的肌肉记忆也会让他付出惨痛的代价。主打一个“我很美，但我会克死你”。", science: "箱水母连真正的大脑都没有，却拥有极其复杂的24只眼睛和世界上最致命的神经毒素。其触手一旦接触到猎物，刺细胞会在几百万分之一秒内弹出，毒液能在几分钟内让人类心脏骤停。", class: "立方水母纲", depth: "0-50m", stats: [15, 90, 80, 5] },
+            "seahorse": { name: "纯爱发呆家 · 海马", emoji: "🎠", desc: "确诊为：节奏极慢的固执浪漫主义。在这个讲究效率和速度的内卷时代，你简直是一股清流。你宁愿一整天抱着一根草发呆，也不愿意为了合群而随波逐流。你认死理，对待感情专一到有些执拗，是个骨子里透着呆萌和忠诚的慢性子。", science: "世界上唯一一种由雄性负责怀孕和生育后代的动物。它们的游泳能力在鱼类中几乎垫底，为了不被洋流冲走，只能用灵活的尾巴死死勾住海草或珊瑚，一生中大部分时间都在原地发呆和等待猎物路过。", class: "辐鳍鱼纲-海龙科", depth: "1-30m", stats: [40, 15, 60, 30] },
+            "eel": { name: "情绪炸弹 · 电鳗", emoji: "⚡", desc: "确诊为：间歇性暴躁症患者。平时看着像个透明人，死气沉沉毫无波澜，别人甚至经常忘记你的存在。但只要有人踩了你的雷区，你会瞬间爆发出令人胆寒的能量，把周围人劈得外焦里嫩。不过，爆发完之后你会陷入长久的“贤者时间”，躲在角落里反思人生。", science: "拥有高度特化的肌肉组织，全身80%以上的体积由发电器官组成。最高能释放出高达860伏特的高压电。虽然名字叫鳗，但在分类学上它其实属于裸背电鳗目，血缘上反而离鲶鱼更近一些。", class: "辐鳍鱼纲-电鳗目", depth: "0-20m", stats: [45, 95, 30, 20] },
+            "nudi": { name: "多巴胺画师 · 海蛞蝓", emoji: "🌈", desc: "确诊为：用颜值杀人的自恋狂魔。对你来说，人生苦短，必须好看。哪怕爬得再慢、能力再差，出门也必须盛装打扮。你深谙“越美丽越危险”的道理，你的自信来源于你从别人那里“吸取”的底气。你是个极具艺术细胞的享乐主义者，靠着独特的个人魅力行走江湖。", science: "被称为“海神”的裸鳃类生物。它们本身往往没有防御能力，但它们会吃掉有毒的海绵或水螅，并把对方的毒刺细胞完好无损地转移到自己背上的突起中作为武器，是自然界真正的“拿来主义”大师。", class: "腹足纲-裸鳃目", depth: "0-50m", stats: [55, 60, 50, 40] },
+            "crab": { name: "焦虑房奴 · 寄居蟹", emoji: "🐚", desc: "确诊为：缺乏安全感的武装刺猬。你一生都在不停地寻找更大的“房子”（壳），物质基础是你唯一的安全感来源。虽然在外人看来你张牙舞爪、全副武装、一言不合就开干，但实际上你极其害怕受伤，一旦被人掀掉伪装，你比谁都要柔软和恐慌。", science: "腹部柔软且不对称，必须终生寄居在空螺壳内。它们对房地产有着疯狂的执念，甚至会像人类一样排队交换空壳。如果在污染海域找不到贝壳，它们甚至只能绝望地住进人类丢弃的塑料瓶盖或玻璃瓶里。", class: "软甲纲-异尾类", depth: "0-100m", stats: [50, 40, 95, 60] },
+            "shrimp": { name: "极致打工人 · 清洁虾", emoji: "🦐", desc: "确诊为：职场讨好型服务天花板。你游走在各种大佬和危险关系之间，靠着极高的情商和勤劳的双手换取生存权。你见人说人话，见鬼说鬼话，总能精准找到对方的痛点并提供情绪价值（或者物理清理）。虽然卑微，但你实际上掌握着整个圈子的核心八卦。", science: "会在珊瑚礁上设立固定的“清洁站”。它们不仅能在凶猛海鳝的牙缝里跳舞，连顶级掠食者石斑鱼路过时，也会张开大嘴乖乖排队等它清理寄生虫，是海洋生态链中受万鱼敬仰的“华佗”。", class: "软甲纲-十脚目", depth: "10-50m", stats: [65, 10, 20, 90] },
+            "isopod": { name: "断食修仙者 · 大王具足虫", emoji: "🍱", desc: "确诊为：熬死所有人的深海老神仙。生命力顽强得让人发指。你不卷、不争、不抢，就静静地在深海的黑暗中等待天上掉馅饼（死鲸鱼）。对你来说，时间没有意义，你是个极其冷静的旁观者，在别的鱼为了资源打得头破血流时，你只在旁边默默说一句：“不急，我能苟。”", science: "作为深海最大的等足目动物，由于海底资源极度匮乏，它们进化出了自然界最慢的新陈代谢系统之一。日本水族馆的一只大王具足虫曾创下绝食5年零43天才死亡的惊人纪录，是名副其实的节流大师。", class: "软甲纲-等足目", depth: "170-2100m", stats: [30, 40, 100, 10] },
+            "squid": { name: "深渊克苏鲁 · 大王酸浆鱿", emoji: "🦑", desc: "确诊为：活在黑暗里的神秘大BOSS。你极其神秘，很少主动露面，但江湖上永远流传着你的传说。你长着一双看透一切的巨大眼睛，冷眼旁观着世界的荒诞。只有在面对真正的宿敌时，你才会展现出恐怖的真实实力。孤独是你最大的铠甲。", science: "生活在两千米深的南极冰冷深渊，拥有世界上最大的眼睛（如同排球一般大）用来在黑暗中捕捉微光。它的触手上长满了可360度旋转的倒钩，是深海霸主抹香鲸一生中唯一的也是最致命的死敌。", class: "头足纲-开眼亚目", depth: "2000m+", stats: [70, 90, 50, 100] }
         };
 
-        // 4. 发疯版20道题目
+        // --- 纯发疯版20道题目 ---
         const questions = [
-            { q: "Q1：当一艘渔船轰隆隆地开过来，甚至撒下大网，你的第一反应是？", options: [
-                { t: "赶紧一个神龙摆尾游走，保命要紧。", s: ["shark", "clownfish", "crab"] },
-                { t: "一个旱地拔葱跳上甲板，给渔夫一个响亮的大逼兜。", s: ["mantis", "orca", "eel"] },
-                { t: "假装自己是海水，嘴里发出‘咕嘟’声试图蒙混过关。", s: ["blobfish", "octopus", "jellyfish"] },
-                { t: "游到网边：‘家人们谁懂啊，这里有免费电梯！’", s: ["shrimp", "seahorse", "mola"] }
+            { q: "Q1：深海周一早晨，一艘渔船轰隆隆开过来准备撒网，你的第一反应是？", options: [
+                { t: "一个神龙摆尾火速游走，打工是不可能打工的，先跑为敬！", s: ["shark", "clownfish", "crab", "seahorse"] },
+                { t: "猛地跃出水面，给渔夫一个大逼兜：吵什么吵，老子还没睡醒！", s: ["mantis", "orca", "eel", "nudi"] },
+                { t: "假装自己是一滩海水，嘴里发出‘咕嘟’声试图蒙混过关。", s: ["blobfish", "octopus", "jellyfish", "isopod"] },
+                { t: "游到网边主动进去：家人们谁懂啊，今天有免费电梯可以坐啦！", s: ["shrimp", "mola", "whale", "squid"] }
             ]},
-            { q: "Q2：今天海底派对开幕了，有很多五颜六色的鱼，你会怎么做？", options: [
-                { t: "找个海葵缝钻进去，只要看不见别人，别人就看不见我。", s: ["clownfish", "crab", "isopod"] },
-                { t: "在场中央疯狂吐泡泡，今天我就是这片海域最亮的崽！", s: ["orca", "mantis", "nudi"] },
-                { t: "趴在角落的地板上，假装自己是一块会呼吸的抹布。", s: ["blobfish", "mola"] },
-                { t: "偷偷游到别人背后，拔掉人家最好看的一片鳞然后火速逃跑。", s: ["orca", "eel"] }
+            { q: "Q2：海底派对上，你看到前任正搂着一条非常好看的鱼，你会？", options: [
+                { t: "找个海葵缝钻进去，只要我看不到别人，尴尬就追不上我。", s: ["clownfish", "crab", "isopod", "blobfish"] },
+                { t: "冲过去跳一段极其抽象的科目三，用实力抢走所有风头。", s: ["orca", "nudi", "mantis", "shrimp"] },
+                { t: "优雅地路过并喷出一大团墨汁，让全场强制闭眼黑屏。", s: ["octopus", "squid", "eel", "jellyfish"] },
+                { t: "被吓得鱼鳔失衡，当场翻白眼并漂浮在水面上装死。", s: ["mola", "seahorse", "whale", "shark"] }
             ]},
-            { q: "Q3：洋流把你往未知的深海冲去，此时你：", options: [
-                { t: "逆流而上！只要我游得够快，命运就追不上我！", s: ["shark", "orca"] },
-                { t: "太好了省力了，翻个面闭上眼，就当免费旅游了。", s: ["blobfish", "mola", "whale"] },
-                { t: "张大嘴巴，顺便把路过被冲过来的浮游生物全吃掉。", s: ["whale", "isopod"] },
-                { t: "立刻死死吸住路过的一只大海龟：‘带我一个！’", s: ["shrimp", "seahorse", "clownfish"] }
+            { q: "Q3：海王星逆行导致洋流极度紊乱，把你往陌生海域冲，此时你：", options: [
+                { t: "逆流而上！只要我游得够快，该死的命运就追不上我！", s: ["shark", "orca", "mantis", "squid"] },
+                { t: "太好了省得自己游了，翻个面闭上眼，就当公费旅游。", s: ["blobfish", "mola", "whale", "isopod"] },
+                { t: "死死吸住路过的一只大海龟大喊：师傅，带我一程！", s: ["shrimp", "seahorse", "clownfish", "crab"] },
+                { t: "边被冲走边张大嘴巴，把路过的浮游生物全当自助餐吃掉。", s: ["whale", "isopod", "octopus", "nudi"] }
             ]},
-            { q: "Q4：老板（大白鲨）突然在群里艾特你，让你周末回海里加班？", options: [
-                { t: "秒回：‘好的老板，正好我还没睡。’（其实在磨牙）", s: ["shrimp", "clownfish"] },
-                { t: "反手就是一个‘消息撤回’，然后注销账号假装查无此鱼。", s: ["octopus", "squid"] },
-                { t: "游到老板身边放出一股强电流，让他知道什么叫‘薪火相传’。", s: ["eel", "mantis"] },
-                { t: "太紧张导致鱼鳔失衡，直接原地翻车漂浮在海面。", s: ["mola", "blobfish"] }
+            { q: "Q4：大白鲨老板深夜在群里@你，让你周末回海沟加个班，你：", options: [
+                { t: "秒回：‘好的老板！’（其实在黑暗中疯狂磨牙想吃鱼翅）", s: ["shrimp", "clownfish", "crab", "seahorse"] },
+                { t: "反手就是一个‘消息撤回’，然后注销账号假装查无此鱼。", s: ["octopus", "squid", "blobfish", "jellyfish"] },
+                { t: "游到老板家门口放出一股强电流，让他知道什么叫‘薪火相传’。", s: ["eel", "mantis", "orca", "nudi"] },
+                { t: "假装视力不好：‘啊？我的眼睛太大了，对焦对不到手机屏幕上。’", s: ["squid", "mola", "whale", "isopod"] }
             ]},
-            { q: "Q5：你发现暗恋的鱼正在和别的鱼共舞，你会？", options: [
-                { t: "优雅地路过并喷出一团墨汁，让大家都别想看清谁是谁。", s: ["octopus", "squid"] },
-                { t: "在旁边疯狂跳科目三，试图用抽象的舞姿夺回对方的注意。", s: ["orca", "nudi"] },
-                { t: "默默回家吃五公斤磷虾，化悲愤为食欲。", s: ["whale", "shark"] },
-                { t: "把自己颜色调到最亮，亮瞎这对苦命鸳鸯。", s: ["jellyfish", "nudi"] }
+            { q: "Q5：如果被人类捞上去做成日料刺身，你临终前的想法是：", options: [
+                { t: "给自己摆个好看的盘，死也要死得有尊严、够漂亮！", s: ["nudi", "jellyfish", "seahorse", "crab"] },
+                { t: "祝吃我的人痛风发作，一辈子吃海鲜拉肚子！", s: ["eel", "mantis", "orca", "shark"] },
+                { t: "趁切片前，攒足最后一口气，滋主厨一脸毒墨汁！", s: ["octopus", "squid", "clownfish", "shrimp"] },
+                { t: "终于不用上班了...希望我的肉质足够柴，难吃死他们。", s: ["blobfish", "mola", "isopod", "whale"] }
             ]},
-            { q: "Q6：如果你可以拥有一种超能力，你选？", options: [
-                { t: "一拳打穿海底地壳的怪力。", s: ["mantis", "shark"] },
-                { t: "随时随地瞬间移动，瞬移到被窝里。", s: ["octopus", "isopod"] },
-                { t: "五年不吃不喝还不掉秤的耐力。", s: ["isopod", "blobfish"] },
-                { t: "唱歌能传遍半个地球的巨肺。", s: ["whale", "orca"] }
+            { q: "Q6：如果你可以拥有一种深海超能力，你选？", options: [
+                { t: "一拳能打穿地球的赛博怪力。", s: ["mantis", "shark", "orca", "crab"] },
+                { t: "能把傻逼同事瞬间抹除的剧毒。", s: ["jellyfish", "nudi", "eel", "octopus"] },
+                { t: "连续五年不吃不喝还不掉秤的超强续航力。", s: ["isopod", "blobfish", "mola", "whale"] },
+                { t: "任何时候都能隐身钻进别人看不见的洞里。", s: ["clownfish", "seahorse", "squid", "shrimp"] }
             ]},
-            { q: "Q7：面对一只比你大十倍的掠食者，你通常的防御手段是？", options: [
-                { t: "亮出剧毒：‘碰我一下试试，头七都不用过。’", s: ["jellyfish", "nudi"] },
-                { t: "把自己缩成一个坚硬的球，主打一个‘咬不动’。", s: ["crab", "isopod"] },
-                { t: "哭。哭得很大声，直到对方觉得没面子走掉。", s: ["mola", "clownfish"] },
-                { t: "大声喊人：‘家人们救命啊，这有人欺负老实鱼啦！’", s: ["orca", "shrimp"] }
+            { q: "Q7：遇到比你大十倍、长得很凶的掠食者找你麻烦，你通常：", options: [
+                { t: "冷笑一声亮出剧毒：‘碰我一下试试，头七都不用过。’", s: ["jellyfish", "nudi", "eel", "mantis"] },
+                { t: "大声喊人：‘家人们救命啊，这里有个老帮菜欺负老实鱼啦！’", s: ["orca", "shrimp", "clownfish", "seahorse"] },
+                { t: "把自己缩成一个极其坚硬的球，主打一个‘你咬不动我’。", s: ["crab", "isopod", "mola", "blobfish"] },
+                { t: "在深渊里直勾勾地盯着它，用眼神把它看得心里发毛。", s: ["squid", "shark", "octopus", "whale"] }
             ]},
-            { q: "Q8：在海底捡到了一颗发光的珍珠，你会？", options: [
-                { t: "卖掉。换一整年的顶级海藻套餐。", s: ["shark", "crab"] },
-                { t: "装饰在自己身上，我就是东海龙宫最潮的仔。", s: ["nudi", "mantis"] },
-                { t: "埋起来。虽然没用，但别人拿不到我就开心。", s: ["octopus", "squid"] },
-                { t: "捐掉。让更多买不起房的鱼有壳住。", s: ["whale", "shrimp"] }
+            { q: "Q8：在海底捡到了一颗散发着绝世光芒的珍珠，你会？", options: [
+                { t: "一口吞了，这玩意儿应该嘎嘣脆，挺补钙的。", s: ["shark", "isopod", "whale", "mola"] },
+                { t: "顶在头上当装饰，老子就是东海龙宫最潮的显眼包！", s: ["nudi", "orca", "mantis", "jellyfish"] },
+                { t: "找个坑埋起来。虽然我没用，但别人拿不到我就很爽。", s: ["octopus", "squid", "eel", "crab"] },
+                { t: "抱着它发呆，然后不小心弄丢了，算了旧的不去新的不来。", s: ["blobfish", "seahorse", "clownfish", "shrimp"] }
             ]},
-            { q: "Q9：你如何评价自己的精神状态？", options: [
-                { t: "间歇性奋发图强，持续性混吃等死。", s: ["eel", "orca"] },
-                { t: "我没有精神状态，我只是个漂亮的装饰品。", s: ["jellyfish", "nudi"] },
-                { t: "我在等一个契机，然后惊艳（吓）所有人。", s: ["squid", "octopus"] },
-                { t: "我命由我不由天，天要灭我我就翻。", s: ["mola", "blobfish"] }
+            { q: "Q9：你如何评价自己目前的“发疯”精神状态？", options: [
+                { t: "间歇性想毁灭世界，持续性混吃等死。", s: ["eel", "orca", "mantis", "octopus"] },
+                { t: "我没有精神状态，我只是一块会呼吸的漂亮五花肉。", s: ["nudi", "jellyfish", "blobfish", "isopod"] },
+                { t: "我命由我不由天，天要灭我我就翻个面接着睡。", s: ["mola", "whale", "shark", "squid"] },
+                { t: "在崩溃和自愈之间反复横跳，全靠硬撑。", s: ["crab", "clownfish", "seahorse", "shrimp"] }
             ]},
-            { q: "Q10：当你发现自己辛辛苦苦找的壳/洞穴被抢走了？", options: [
-                { t: "当场开打。我的东西哪怕碎了也不能给你！", s: ["mantis", "crab"] },
-                { t: "算了，旧的不去新的不来（内心流血）。", s: ["clownfish", "seahorse"] },
-                { t: "在它门口跳大神，让它住得心里发毛。", s: ["orca", "eel"] },
-                { t: "默默在旁边再挖一个洞，等它住腻了再搬回来。", s: ["octopus", "isopod"] }
+            { q: "Q10：当你发现辛辛苦苦抢到的豪华空贝壳（房子）被别人占了？", options: [
+                { t: "当场开干！把你连鱼带壳一起砸个稀巴烂！", s: ["mantis", "crab", "shark", "orca"] },
+                { t: "在门口疯狂吐口水跳大神，让他住得每天做噩梦。", s: ["eel", "octopus", "squid", "nudi"] },
+                { t: "默默在旁边再挖个坑，等他住腻了搬走我再捡漏。", s: ["isopod", "blobfish", "mola", "seahorse"] },
+                { t: "点头哈腰凑过去：‘老板，需要保洁服务吗？包年打八折。’", s: ["shrimp", "clownfish", "jellyfish", "whale"] }
             ]},
-            { q: "Q11：如果世界末日海洋干涸，你最后的遗言是？", options: [
-                { t: "下辈子投胎做只猫，我要吃回来！", s: ["shark", "orca"] },
-                { t: "终于可以休息了，不用再游了。", s: ["blobfish", "mola"] },
-                { t: "谁来帮我把这身彩绘擦了，太显眼了。", s: ["nudi", "jellyfish"] },
-                { t: "我还没吃饱……", s: ["whale", "isopod"] }
+            { q: "Q11：如果明天地球毁灭海洋干涸，你最后的遗言是？", options: [
+                { t: "下辈子投胎做只橘猫，我要把你们全吃了！", s: ["shark", "orca", "mantis", "eel"] },
+                { t: "太好了，终于可以合法长眠了，晚安玛卡巴卡。", s: ["blobfish", "isopod", "mola", "whale"] },
+                { t: "卧槽，谁来帮我把身上的高光擦了，死的时候太显眼了。", s: ["nudi", "jellyfish", "seahorse", "clownfish"] },
+                { t: "等一下，我那个玻璃瓶盖还没拧开，让我拧完再死！", s: ["octopus", "squid", "crab", "shrimp"] }
             ]},
-            { q: "Q12：看到一个人类丢下的易拉罐，你会？", options: [
-                { t: "太好了！拎包入住，这是复式豪宅！", s: ["crab", "octopus"] },
-                { t: "把它咬个稀烂，这破玩意儿污染我地盘了。", s: ["mantis", "shark"] },
-                { t: "钻进去卡住了，然后开始疯狂求救。", s: ["mola", "clownfish"] },
-                { t: "把它改造成一件时尚艺术品挂在胸前。", s: ["nudi", "seahorse"] }
+            { q: "Q12：看到一个人类丢进海里的雪碧易拉罐，你会？", options: [
+                { t: "大喜过望！立刻拎包入住，好耶是复式铝合金豪宅！", s: ["crab", "octopus", "clownfish", "shrimp"] },
+                { t: "冲过去一顿暴咬撕碎，敢在我的地盘乱扔垃圾？", s: ["shark", "mantis", "orca", "eel"] },
+                { t: "不小心钻进去卡住了，然后开始极其抽象的求救摇摆。", s: ["mola", "seahorse", "blobfish", "whale"] },
+                { t: "把它套在脖子上，逢鱼便吹这是人类进贡的高级项链。", s: ["nudi", "squid", "isopod", "jellyfish"] }
             ]},
-            { q: "Q13：在团队协作中，你通常是哪个位置？", options: [
-                { t: "输出拉满。你们辅助，我负责一刀一个。", s: ["shark", "mantis"] },
-                { t: "指挥官。我负责逼逼，你们负责冲锋。", s: ["orca", "whale"] },
-                { t: "气氛组。我负责吐泡泡和说‘牛逼’。", s: ["seahorse", "mola"] },
-                { t: "摸鱼专家。你们开会，我研究珊瑚纹路。", s: ["blobfish", "isopod"] }
+            { q: "Q13：在不得不参与的团队协作中，你通常处于什么生态位？", options: [
+                { t: "疯狂输出的大C。你们全闪开，看我一刀一个小朋友。", s: ["shark", "mantis", "orca", "squid"] },
+                { t: "摸鱼祖师爷。你们在开会，我在研究海底沙子的颗粒度。", s: ["blobfish", "isopod", "mola", "seahorse"] },
+                { t: "毫无底线的气氛组。全程只会拍手喊：老板牛逼！", s: ["shrimp", "clownfish", "whale", "jellyfish"] },
+                { t: "腹黑军师。表面不出声，背地里早就盘算好了退路。", s: ["octopus", "eel", "crab", "nudi"] }
             ]},
-            { q: "Q14：你觉得最浪漫的事情是？", options: [
-                { t: "在两千米的海底一起发呆，直到地老天荒。", s: ["isopod", "squid"] },
-                { t: "把我的孩子都交给你带，我去闯荡海洋。", s: ["seahorse"] },
-                { t: "一起去抢别人的午餐，这种罪恶感真迷人。", s: ["orca", "eel"] },
-                { t: "在风暴中相拥，死也死在一起。", s: ["mola", "whale"] }
+            { q: "Q14：在这片冰冷的海洋里，你觉得最极致的浪漫是？", options: [
+                { t: "在两千米深的绝对黑暗里一起挂机，直到地老天荒。", s: ["isopod", "squid", "blobfish", "shark"] },
+                { t: "把我的孩子全部塞给你生，我去拯救世界。", s: ["seahorse", "mola", "whale", "clownfish"] },
+                { t: "一起去抢隔壁海豹的午餐，这种罪恶感真是太迷人了。", s: ["orca", "eel", "mantis", "crab"] },
+                { t: "用最毒的触手互相拥抱，看谁先毒死谁。", s: ["jellyfish", "nudi", "octopus", "shrimp"] }
             ]},
-            { q: "Q15：你的情绪起伏频率大概是？", options: [
-                { t: "电梯式。上一秒开心，下一秒想毁灭海洋。", s: ["eel", "mantis"] },
-                { t: "心电图。稳如老狗，毫无波澜。", s: ["blobfish", "isopod"] },
-                { t: "跳水式。只要别人一句话我就崩了。", s: ["mola", "clownfish"] },
-                { t: "海浪式。时而狂野，时而温柔。", s: ["whale", "orca"] }
+            { q: "Q15：别人通常怎么形容你的情绪波动频率？", options: [
+                { t: "跳楼机式。上一秒阳光灿烂，下一秒想拉所有人陪葬。", s: ["eel", "mantis", "orca", "squid"] },
+                { t: "心电图直线式。稳如老狗，毫无波澜，宛如一潭死水。", s: ["blobfish", "isopod", "shark", "whale"] },
+                { t: "玻璃渣式。只要别人稍微大声点说话，我就当场碎一地。", s: ["mola", "clownfish", "seahorse", "crab"] },
+                { t: "万花筒式。你永远猜不到我下一秒会切出什么离谱的人格。", s: ["octopus", "nudi", "jellyfish", "shrimp"] }
             ]},
-            { q: "Q16：如果有人夸你长得真有个性，你怎么回？", options: [
-                { t: "‘谢谢，我也觉得我帅得惨绝人寰。’", s: ["orca", "nudi"] },
-                { t: "‘再说一句，把你眼珠子扣出来。’", s: ["shark", "mantis"] },
-                { t: "‘……（内心：他是不是在骂我丑？）’", s: ["blobfish", "clownfish"] },
-                { t: "‘我有24只眼睛，你夸的是哪一只？’", s: ["jellyfish", "squid"] }
+            { q: "Q16：如果有不长眼的鱼跑来夸你“长得真有个性”，你怎么回？", options: [
+                { t: "‘谢谢，我也觉得我这该死的魅力无处安放。’", s: ["nudi", "orca", "jellyfish", "seahorse"] },
+                { t: "‘再说一句，我把你眼珠子扣下来当泡鱼眼踩。’", s: ["shark", "mantis", "eel", "crab"] },
+                { t: "‘……（内心疯狂内耗：他是不是在阴阳怪气我丑？）’", s: ["blobfish", "clownfish", "mola", "isopod"] },
+                { t: "‘我有九个脑子，你在跟哪一个说话？’", s: ["octopus", "squid", "whale", "shrimp"] }
             ]},
-            { q: "Q17：你对“成功”的定义是？", options: [
-                { t: "吃得饱，睡得香，没人烦。", s: ["blobfish", "isopod"] },
-                { t: "成为整片大洋闻风丧胆的王者。", s: ["shark", "orca"] },
-                { t: "能把最复杂、最难拧的瓶盖拧开。", s: ["octopus", "squid"] },
-                { t: "每天都能看到最美的珊瑚礁日出。", s: ["nudi", "seahorse"] }
+            { q: "Q17：身为一条海鲜，你对“成功”的终极定义是？", options: [
+                { t: "能吃上最软的饭，睡最深的洞，谁也找不到我。", s: ["blobfish", "isopod", "clownfish", "seahorse"] },
+                { t: "成为整片大洋闻风丧胆的混世魔王，走到哪都清场。", s: ["shark", "orca", "mantis", "squid"] },
+                { t: "每天都能换一身不同颜色的极品皮肤去海面炸街。", s: ["nudi", "jellyfish", "crab", "mola"] },
+                { t: "掌握整片珊瑚礁所有的八卦和秘密。", s: ["octopus", "shrimp", "eel", "whale"] }
             ]},
-            { q: "Q18：当你遇到那种很爱装逼的鱼，你会？", options: [
-                { t: "当众拆穿它，让他下不来台。", s: ["mantis", "orca"] },
-                { t: "冷嘲热讽，说得他开始怀疑鱼生。", s: ["eel", "octopus"] },
-                { t: "随他去吧，傻鱼有傻福。", s: ["whale", "blobfish"] },
-                { t: "真诚发问：‘你这种装逼方式在哪学的？’", s: ["shrimp", "mola"] }
+            { q: "Q18：当你遇到那种特别爱在你面前装逼的鱼，你会？", options: [
+                { t: "当众一个大逼兜拆穿它，让他社死得明明白白。", s: ["mantis", "orca", "shark", "eel"] },
+                { t: "各种冷嘲热讽阴阳怪气，说得他开始怀疑鱼生。", s: ["octopus", "squid", "crab", "nudi"] },
+                { t: "真诚发问：‘哇噻！你这种装逼方式是在哪报的班？’", s: ["shrimp", "mola", "jellyfish", "clownfish"] },
+                { t: "看猴戏一样看着它，内心毫无波澜甚至想睡觉。", s: ["blobfish", "isopod", "whale", "seahorse"] }
             ]},
-            { q: "Q19：你在深海孤独太久了，突然看到一束光，你会？", options: [
-                { t: "冲过去！不管是出口还是地狱，我都要看一眼。", s: ["shark", "mantis"] },
-                { t: "躲起来。深海定律告诉我有光必有诈。", s: ["squid", "octopus"] },
-                { t: "继续闭目养神。光又不能当饭吃。", s: ["blobfish", "isopod"] },
-                { t: "对着光开始祈祷：‘锦鲤保佑我不翻车。’", s: ["mola", "clownfish"] }
+            { q: "Q19：在深渊里孤独游荡了很久，突然看到前方有一束强光，你会？", options: [
+                { t: "直接冲刺！不管是出口还是地狱，我都要去干翻它。", s: ["shark", "mantis", "orca", "squid"] },
+                { t: "立刻苟起来。深海定律：有光必有诈，八成是灯笼鱼在钓鱼。", s: ["octopus", "crab", "isopod", "eel"] },
+                { t: "对着强光开始祈祷双手合十：‘锦鲤保佑我今天别被吃掉。’", s: ["mola", "clownfish", "seahorse", "shrimp"] },
+                { t: "游过去转两圈，如果是手电筒就给它贴满好看的鳞片。", s: ["nudi", "jellyfish", "blobfish", "whale"] }
             ]},
-            { q: "Q20：最后，你觉得这套测试准吗？", options: [
-                { t: "准得离谱，你是不是在我床底安了监控？", s: ["orca", "octopus"] },
-                { t: "不准，我是最完美的，鱼类不足以概括我。", s: ["shark", "mantis"] },
-                { t: "无所谓。测完我也要继续摆烂了。", s: ["blobfish", "mola"] },
-                { t: "嘿嘿，挺好玩的，再测一次！", s: ["shrimp", "seahorse"] }
+            { q: "Q20：最后，你觉得你目前的精神状态还能抢救一下吗？", options: [
+                { t: "不用抢救了，我觉得我强得可怕，错的都是这个世界！", s: ["orca", "shark", "mantis", "eel"] },
+                { t: "别动我，让我安静地烂在海底，这就是最好的归宿。", s: ["blobfish", "isopod", "mola", "whale"] },
+                { t: "只要能让我每天美美地发疯，我就还能继续活下去。", s: ["nudi", "jellyfish", "octopus", "squid"] },
+                { t: "医生！我觉得我还能抢救！只要给我个好点的贝壳就行！", s: ["crab", "clownfish", "shrimp", "seahorse"] }
             ]}
         ];
 
-        // 5. 逻辑脚本
+        // 核心逻辑脚本
         let currentQ = 0;
         let scoreMap = {};
         Object.keys(species).forEach(k => scoreMap[k] = 0);
@@ -360,7 +362,7 @@
             q.options.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-option w-full p-4 rounded-2xl flex items-center gap-3 text-sm';
-                btn.innerHTML = `<span class="w-6 h-6 shrink-0 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center text-[10px] font-mono font-bold">${String.fromCharCode(65+i)}</span> ${opt.t}`;
+                btn.innerHTML = `<span class="w-6 h-6 shrink-0 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center text-[10px] font-mono font-bold">${String.fromCharCode(65+i)}</span> <span class="leading-relaxed">${opt.t}</span>`;
                 btn.onclick = () => {
                     playBubble();
                     opt.s.forEach(s => scoreMap[s] += 1);
@@ -379,6 +381,7 @@
             document.getElementById('quiz-container').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
             
+            // 找出得分最高的物种
             const winnerKey = Object.keys(scoreMap).reduce((a, b) => scoreMap[a] > scoreMap[b] ? a : b);
             const data = species[winnerKey];
 
@@ -393,14 +396,15 @@
             new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: ['智慧', '武力', '防御', '心态'],
+                    labels: ['发疯指数', '物理武力', '心理防御', '精神稳定'],
                     datasets: [{
                         data: data.stats,
                         backgroundColor: 'rgba(34, 211, 238, 0.2)',
                         borderColor: '#22d3ee',
                         borderWidth: 2,
                         pointBackgroundColor: '#fff',
-                        pointRadius: 0
+                        pointRadius: 2,
+                        pointHoverRadius: 4
                     }]
                 },
                 options: {
@@ -408,7 +412,7 @@
                         r: {
                             angleLines: { color: 'rgba(255,255,255,0.1)' },
                             grid: { color: 'rgba(255,255,255,0.1)' },
-                            pointLabels: { color: '#888', font: { size: 10 } },
+                            pointLabels: { color: '#e0f2fe', font: { size: 10, family: 'sans-serif', weight: 'bold' } },
                             ticks: { display: false, max: 100, min: 0 }
                         }
                     },
@@ -419,13 +423,18 @@
 
         async function saveCard() {
             const card = document.getElementById('result-card');
+            
+            // 保存前处理一下滚动隐藏带来的可能截断问题
+            card.style.height = "auto";
+            
             const canvas = await html2canvas(card, {
                 scale: 3,
-                backgroundColor: '#000814',
-                useCORS: true
+                backgroundColor: '#001d3d',
+                useCORS: true,
+                allowTaint: true
             });
             const link = document.createElement('a');
-            link.download = `FishTI-Result-${Date.now()}.png`;
+            link.download = `OceanTI-发疯报告-${Date.now()}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
         }
