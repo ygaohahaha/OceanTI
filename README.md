@@ -1,0 +1,2 @@
+OceanTI is a playful web-based personality quiz that maps users’ “mental states” to ocean creatures. Through 20 stylized and humorous questions, it generates a personalized “marine psychological report,” ranging from dominant orcas to laid-back blobfish. Each result blends witty storytelling with real biological facts and is visualized with a radar chart. Featuring ocean particle effects, glassmorphism UI, interactive quiz flow, and shareable result cards, the project is both immersive and highly shareable.
+👉 Try it here: https://ygaohahaha.github.io/OceanTI/
